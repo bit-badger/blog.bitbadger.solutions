@@ -24,7 +24,7 @@ tags:
 This is the first of 5 posts in this series.
 
 - **Part 0: Introduction** _(this post)_
-- **Part 1: The User Interface** - A look at htmx and Giraffe working together to create the web UI
+- **[Part 1: The User Interface][part1]** - A look at htmx and Giraffe working together to create the web UI
 - **Part 2: Using Bootstrap** - A little bit of JavaScript goes a long way
 - **Part 3: The Data Store** - Migration to and usage of LiteDB
 - **Part 4: Conclusion** - Lessons learned and areas for improvement
@@ -64,6 +64,7 @@ What really swung me over the fence to giving it a shot, though, was a point Car
 In the next post, we'll take a look at Giraffe, its View Engine, htmx, and how they all work together. The post after that will dive into the aforementioned 82 lines of JavaScript to see how we can control Bootstrap's client/browser behavior from the server. After that, we'll dig in on LiteDB, to include how we serialize some common F# constructs. Finally, we'll wrap up the series with overarching lessons learned, and other thoughts which may not fit nicely into one of the other posts.
 
 
+[part1]: /2021/a-tour-of-myprayerjournal-v3/the-user-interface.html "A Tour of myPrayerJournal v3: The User Interface | The Bit Badger Blog"
 [tour1]: /2018/a-tour-of-myprayerjournal/introduction.html "A Tour of myPrayerJournal: Introduction | The Bit Badger Blog"
 [Vue]: https://vuejs.org "Vue"
 [Giraffe]: https://giraffe.wiki "Giraffe"
