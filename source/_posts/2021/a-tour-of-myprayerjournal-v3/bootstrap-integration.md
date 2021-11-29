@@ -1,7 +1,7 @@
 ﻿---
 layout: post
 title: "A Tour of myPrayerJournal v3: Bootstrap Integration"
-date: 2021-11-29 14:17:00
+date: 2021-11-29 16:51:00
 author: Daniel
 categories:
 - [ Programming, .NET, F# ]
@@ -10,29 +10,33 @@ categories:
 - [ Series, A Tour of myPrayerJournal v3 ]
 tags:
 - bootstrap
+- css
+- events
 - f#
 - giraffe
 - html
 - htmx
 - javascript
 - migration
+- modal
+- notification
 - single page application
 - spa
-- view engine
+- toast
 - vue
 ---
 
 _NOTE: This is the third post in a series; see [the introduction][intro] for information on requirements and links to other posts in the series._
 
-Many Single Page Application (SPA) frameworks not only allow you to never do a full refresh of your page for the duration of a visit, many also include (or have plugins for) <abbr title="Cascading Style Sheets">CSS</abbr> transitions and effects. From the user's perspective, this is one of their best features. One might not think that a framework like [htmx][], which simply swaps out sections of the page, would have this; but one would be wrong. I did not dig into those aspects of htmx while I was migrating myPrayerJournal from v2 to v3; however, I will highlight the htmx way to do this in [last section of this post][css-in-htmx].
+Many modern Single Page Application (SPA) frameworks include (or have plugins for) <abbr title="Cascading Style Sheets">CSS</abbr> transitions and effects. Combined with the speed of not having to do a full refresh, this is one of their best features. One might not think that a framework like [htmx][], which simply swaps out sections of the page, would have this; but if one were to think that, one would be wrong. Sadly, though, I did not utilize those aspects of htmx while I was migrating myPrayerJournal from v2 to v3; however, I will highlight the htmx way to do this in [last section of this post][css-in-htmx].
 
-myPrayerJournal v2 used a [Vue][] plugin that provided Bootstrap v4 support; myPrayerJournal v3 uses [Bootstrap][] v5. The main motivation I had to remain with Bootstrap was that I liked the actual appearance, and I know how it works; the majority of the "learning" on this project was in the htmx realm. But, before I dig in to the implementation, let me briefly explain the framework.   
+myPrayerJournal v2 used a [Vue][] plugin that provided Bootstrap v4 support; myPrayerJournal v3 uses [Bootstrap][] v5. The main motivation I had to remain with Bootstrap was that I liked the actual appearance, and I know how it works. The majority of my "learning" on this project dealt with htmx; I did not want to add a UI redesign to the mix. Before we jump into the implementation, let me briefly explain the framework.   
 
 ## About Bootstrap
 
-Bootstrap was originally called Twitter Bootstrap; it was the CSS framework that Twitter developed in their early iterations. It was, by far, the most popular framework at the time, and it was innovative in its grid layout system. Long before there was browser support for the styles that make layouts much easier to develop, and more responsive to differing screen sizes, Bootstrap's grid layout and size breakpoints made it easy to build a website that worked both on the desktop or on a phone. Of course, there is a limit to what you can do with styling, so Bootstrap also has a JavaScript library that augments these styles, enabling the interactivity to which the modern web user is accustomed.
+Bootstrap was originally called Twitter Bootstrap; it was the CSS framework that Twitter developed in their early iterations. It was, by far, the most popular framework at the time, and it was innovative in its grid layout system. Long before there was browser support for the styles that make layouts much easier to develop, and more responsive to differing screen sizes, Bootstrap's grid layout and size breakpoints made it easy to build a website that worked for desktop, tablet, or phone. Of course, there is a limit to what you can do with styling, so Bootstrap also has a JavaScript library that augments these styles, enabling the interactivity to which the modern web user is accustomed.
 
-Version 5 of Bootstrap continues this tradition; however, it brings in even more utility classes, and supports Flex layouts as well. It is a mature library that continues to be maintained, and the project's philosophy seems to be a "just enough" - it's not going to do everything for everyone, but in the majority of cases, it has exactly what the developer needs. It is not a bloated library that needs tree-shaking to avoid a ridiculous download size.
+Version 5 of Bootstrap continues this tradition; however, it brings in even more utility classes, and supports Flex layouts as well. It is a mature library that continues to be maintained, and the project's philosophy seems to be "just enough" - it's not going to do everything for everyone, but in the majority of cases, it has exactly what the developer needs. It is not a bloated library that needs tree-shaking to avoid a ridiculous download size.
 
 It is, by far, the largest payload in the initial page request:
 
@@ -48,19 +52,19 @@ htmx provides [several events][htmx-evts] to which an application can listen. In
 
 There are two different Bootstrap script-driven components myPrayerJournal uses; let's take a look at toasts.
 
-## A Toast to htmx
+## A Toast ~~to~~ Via htmx
 
-[Toasts][bs-toast] are pop-up notifications that appear on the screen, usually for a short time, then fade out. In some cases, particularly if the toast is alerting the user to an error, it will stay on the screen until the user dismisses it, usually by clicking an "x" in the upper right-hand corner (even if the developer used a Mac!). Bootstrap provides a host of options for their toast component; for our uses, though, we will:
+[Toasts][bs-toast] are pop-up notifications that appear on the screen, usually for a short time, then fade out. In some cases, particularly if the toast is alerting the user to an error, it will stay on the screen until the user dismisses it, usually by clicking an "x" in the upper right-hand corner _(even if the developer used a Mac!)_. Bootstrap provides a host of options for their toast component; for our uses, though, we will:
 
 - Place toasts in the bottom right-hand corner;
 - Allow multiple toasts to be visible at once;
-- Auto-hide success toasts, require others to be dismissed manually.
+- Auto-hide success toasts; require others to be dismissed manually.
 
 There are several different aspects that make this work.
 
 ### The Toaster
 
-Just like toast comes out of a toaster, our toasts need a place from which to emerge. In the [prior post][prior], I mentioned that the footer does not get reloaded when a "page" request is made. There is also an element above the footer that also remains across these requests - defined here as the "toaster" (my term, not Bootstrap's).
+Just like <abbr title="In Real Life">IRL</abbr> toast comes out of a toaster, our toasts need a place from which to emerge. In the [prior post][prior], I mentioned that the footer does not get reloaded when a "page" request is made. There is also an element above the footer that also remains across these requests - defined here as the "toaster" (my term, not Bootstrap's).
 
 ```fsharp
 /// Element used to display toasts
@@ -70,9 +74,9 @@ let toaster =
     ]
 ```
 
-This renders two empty `div`s with the appropriate style attributes; toasts placed here will display as we want them to.
+This renders two empty `div`s with the appropriate style attributes; toasts placed in the `#toasts` `div` will display as we want them to.
 
-### Creating a Toast
+### Showing the Toast
 
 Bootstrap provides `data-` attributes that can make toasts appear; however, since we are creating these in script, we need to use their JavaScript functions. The message coming from the server has the format `TYPE|||The message`. Let's look at [the showToast function][v3-toast] (the largest custom JavaScript function in the entire application):
 
@@ -129,7 +133,7 @@ Here's what's going on in the code above:
 - Line 35 adds the toast to the page (within the `toasts` inner `div` defined above)
 - Line 36 initializes the Bootstrap JavaScript component, auto-hiding on success, and shows the toast
 
-_(If you've never used JavaScript to create elements that are added to an HTML document, this probably looks weird and verbose; if you have, you look at it and say "they're not wrong...")_
+_(If you've never used JavaScript to create elements that are added to an HTML document, this probably looks weird and verbose; if you have, you look at it and think "well, they're not wrong...")_
 
 So, we have our toaster, we know how to put ~~bread~~ notifications in it - but how do we get the notifications from the server?
 
@@ -152,16 +156,16 @@ This looks for a custom HTTP header of `X-Toast` (all headers are lowercase from
 
 There is one more part; how does the toast get to the browser?
 
-### Server-Sent Toast
+### Sending the Toast
 
-The last paragraph gave it away; we set a header on the response. This seems straightforward, but [once again, POST-Redirect-GET][part1-prg] (P-R-G) complicates things. Here are the final two lines of the successful path of [the request update handler][v3-upd8]:
+The last paragraph gave it away; we set a header on the response. This seems straightforward, and is in most cases; but [once again, POST-Redirect-GET][part1-prg] (P-R-G) complicates things. Here are the final two lines of the successful path of [the request update handler][v3-upd8]:
 
 ```fsharp
 Messages.pushSuccess ctx "Prayer request updated successfully" nextUrl
 return! seeOther nextUrl next ctx
 ```
 
-If we set a message in the response header, then redirect (remember that `XMLHttpRequest` handles redirects silently), the header gets lost in the redirect. Here, `Messages.pushSuccess` places the success message in a dictionary, indexed by the user's ID. Within the function that renders every result (partial, "page"-like, or full results), this dictionary is checked for a message and URL, and if one exists, it includes it. (If it is returned to the function below, it has already been removed from the dictionary.)
+If we set a message in the response header, then redirect (remember that `XMLHttpRequest` handles redirects silently), the header gets lost in the redirect. Here, `Messages.pushSuccess` places the success message (and return URL) in a dictionary, indexed by the user's ID. Within the function that renders every result (partial, "page"-like, or full results), this dictionary is checked for a message and URL, and if one exists, it includes it. (If it is returned to the function below, it has already been removed from the dictionary.)
 
 ```fsharp
 /// Send a partial result if this is not a full page load (does not append no-cache headers)
@@ -188,7 +192,7 @@ A quick overview of this function:
 - Line 6 renders the view to a string, calling `partial` or `view` with the page rendering context
 - Lines 10-13 are only executed if a user is logged on, and line 12 is the one that appends a message and a new URL
 
-> A quick note about line 12: the `>=>` operator joins Giraffe `HttpHandler`s together. An `HttpHandler` takes an `HttpContext` and the next function to be executed, and returns a `Task<HttpContext option>` (an asynchronous call that may or may not return a context). If there is no context returned, the chain stops; however, the function can return an altered context. It is good practice for an `HttpHandler` to make a single change to the context; this keeps them simple, and allows them to be plugged in however the developer desires. Thus, the `setHttpHeader` call adds the `X-Toast` header, the `withHxPush` call adds the `HX-Push` header, and the `writeView` call sets the response body to the rendered view.
+> **_A quick note about line 12:_** the `>=>` operator joins Giraffe `HttpHandler`s together. An `HttpHandler` takes an `HttpContext` and the next function to be executed, and returns a `Task<HttpContext option>` (an asynchronous call that may or may not return a context). If there is no context returned, the chain stops; the function can also return an altered context. It is good practice for an `HttpHandler` to make a single change to the context; this keeps them simple, and allows them to be plugged in however the developer desires. Thus, the `setHttpHeader` call adds the `X-Toast` header, the `withHxPush` call adds the `HX-Push` header, and the `writeView` call sets the response body to the rendered view.
 
 The new URL part does not actually make the browser do anything; it simply pushes the given URL onto the browser's history stack. Technically, the browser receives the content from the P-R-G as the response to its POST; as we're replacing the current page, though, we need to make sure the URL stays in sync.
 
@@ -212,7 +216,7 @@ You made it - the toast section is toast! There is one more interesting interact
 
 ## Modal Dialogs
 
-Bootstrap's [implementation of modal dialogs][bs-modal] also uses JavaScript; however, for the purposes of the modals used in myPrayerJournal v3, we can use the `data-` attributes to show them. Here is the view for a modal dialog that allows the user to snooze a request:
+Bootstrap's [implementation of modal dialogs][bs-modal] also uses JavaScript; however, for the purposes of the modals used in myPrayerJournal v3, we can use the `data-` attributes to show them. Here is the view for a modal dialog that allows the user to snooze a request (hiding it from the active list until the specified date); this is rendered a single time on the journal view page:
 
 ```fsharp
 div [
@@ -309,12 +313,12 @@ The "Close" button on our modal was given the `id` of `snoozeDismiss`; this mimi
 
 ## CSS Transitions in htmx
 
-This post has already gotten much longer than I had planned, but I wanted to make sure I covered this briefly.
+This post has already gotten much longer than I had planned, but I wanted to make sure I covered this.
 
 - When htmx requests are in flight, the framework makes it easy to [show indicators][ind].
 - I mentioned swapping and settling when discussing the events htmx exposes. The way this is done, [CSS transitions][trans] will render as expected. They have [a host of examples][exmpls] to spark your imagination.
 
-As I was looking for a UI conversion, I did not end up using these; however, this shows that htmx is a true batteries-included framework.
+As I was keeping the UI the same, I did not end up using these options; however, their presence demonstrates that htmx is a true batteries-included SPA framework.
 
 ---
 
@@ -323,7 +327,7 @@ Up next, we'll step away from the front end and dig into LiteDB.
 
 [intro]: /2021/a-tour-of-myprayerjournal-v3/introduction.html "A Tour of myPrayerJournal v3: Introduction | The Bit Badger Blog"
 [htmx]: https://htmx.org "htmx"
-[css-in-htmx]: #the-last-section "CSS Interactivity with htmx | A Tour of myPrayerJournal v3: Bootstrap Integration | The Bit Badger Blog"
+[css-in-htmx]: #CSS-Transitions-in-htmx "CSS Interactivity with htmx | A Tour of myPrayerJournal v3: Bootstrap Integration | The Bit Badger Blog"
 [Vue]: https://vuejs.org "Vue.js"
 [Bootstrap]: https://getbootstrap.com "Bootstrap"
 [htmx-evts]: https://htmx.org/reference/#events "Events | Reference | htmx"
