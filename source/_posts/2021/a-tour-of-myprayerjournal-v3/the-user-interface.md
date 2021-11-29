@@ -109,7 +109,7 @@ As I developed this, I was also building up extensions for Giraffe to handle the
 
 htmx is much less complex than any other front-end JavaScript SPA framework I have ever used - which, for context, includes [Angular][], Vue, [React][], [Ember][], [Aurelia][], and [Elm][]. Both in development and in production use, I cannot tell that the payloads are slightly larger; navigation is fast and smooth. Though I have yet to change anything since going live with myPrayerJournal v3, I know that maintenance will be quite straightforward (to be further explored in the conclusion post).
 
-The UI for myPrayerJournal uses [Bootstrap][], a UI framework which has its own script, and htmx plays quite nicely with it. The next post in this series will describe how I interact with both Bootstrap and htmx, using modals and toasts on this "traditional" web application.
+The UI for myPrayerJournal uses [Bootstrap][], a UI framework which has its own script, and htmx plays quite nicely with it. The [next post][part2] in this series will describe how I interact with both Bootstrap and htmx, using modals and toasts on this "traditional" web application.
 
 
 [intro]: /2021/a-tour-of-myprayerjournal-v3/introduction.html "A Tour of myPrayerJournal v3: Introduction | The Bit Badger Blog"
@@ -135,3 +135,4 @@ The UI for myPrayerJournal uses [Bootstrap][], a UI framework which has its own 
 [Aurelia]: https://aurelia.io "Aurelia"
 [Elm]: https://elm-lang.org "Elm"
 [Bootstrap]: https://getbootstrap.com "Bootstrap"
+[part2]: /2021/a-tour-of-myprayerjournal-v3/bootstrap-integration.html "A Tour of myPrayerJournal v3: Bootstrap Integration | The Bit Badger Blog"
