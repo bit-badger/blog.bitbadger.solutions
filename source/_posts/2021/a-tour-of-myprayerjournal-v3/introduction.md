@@ -35,7 +35,7 @@ Around 3 years ago, I wrote an 8-part series called ["A Tour of myPrayerJournal"
 
 When [Vue][] v3 was announced, this sounded like a great opportunity, with first-class TypeScript support and a new component syntax that promised better performance and a better developer experience. This past summer, I completed a project with the mature Vue v3 framework, and was generally pleased with the results. Just after I returned to my previously abandoned migration attempt on this project (with early Vue v3 support), I heard about **htmx**. With a few attributes, and a server that can handle a few HTTP headers, you can build an interactive site, with performance rivaling or exceeding that of the typical Single Page Application (SPA) - or, at this point, so they claimed.
 
-I also picked up **LiteDB** on another project over the summer, and it worked well. I thought, why not give these technologies a try, and see if I would like result?
+I also picked up **LiteDB** on another project over the summer, and it worked well. I thought, why not give these technologies a try, and see if I would like the result?
 
 _(SPOILER ALERT: I did!)_
 
