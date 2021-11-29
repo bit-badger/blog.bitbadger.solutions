@@ -77,53 +77,57 @@ This renders two empty `div`s with the appropriate style attributes; toasts plac
 Bootstrap provides `data-` attributes that can make toasts appear; however, since we are creating these in script, we need to use their JavaScript functions. The message coming from the server has the format `TYPE|||The message`. Let's look at [the showToast function][v3-toast] (the largest custom JavaScript function in the entire application):
 
 ```javascript
-showToast (message) {
-  const [level, msg] = message.split("|||")
+const mpj = {
+  // ...
+  showToast (message) {
+    const [level, msg] = message.split("|||")
   
-  let header
-  if (level !== "success") {
-    const heading = typ => `<span class="me-auto"><strong>${typ.toUpperCase()}</strong></span>`
+    let header
+    if (level !== "success") {
+      const heading = typ => `<span class="me-auto"><strong>${typ.toUpperCase()}</strong></span>`
     
-    header = document.createElement("div")
-    header.className = "toast-header"
-    header.innerHTML = heading(level === "warning" ? level : "error")
+      header = document.createElement("div")
+      header.className = "toast-header"
+      header.innerHTML = heading(level === "warning" ? level : "error")
     
-    const close = document.createElement("button")
-    close.type = "button"
-    close.className = "btn-close"
-    close.setAttribute("data-bs-dismiss", "toast")
-    close.setAttribute("aria-label", "Close")
-    header.appendChild(close)
-  }
+      const close = document.createElement("button")
+      close.type = "button"
+      close.className = "btn-close"
+      close.setAttribute("data-bs-dismiss", "toast")
+      close.setAttribute("aria-label", "Close")
+      header.appendChild(close)
+    }
 
-  const body = document.createElement("div")
-  body.className = "toast-body"
-  body.innerText = msg
+    const body = document.createElement("div")
+    body.className = "toast-body"
+    body.innerText = msg
   
-  const toastEl = document.createElement("div")
-  toastEl.className = `toast bg-${level === "error" ? "danger" : level} text-white`
-  toastEl.setAttribute("role", "alert")
-  toastEl.setAttribute("aria-live", "assertlive")
-  toastEl.setAttribute("aria-atomic", "true")
-  toastEl.addEventListener("hidden.bs.toast", e => e.target.remove())
-  if (header) toastEl.appendChild(header)
+    const toastEl = document.createElement("div")
+    toastEl.className = `toast bg-${level === "error" ? "danger" : level} text-white`
+    toastEl.setAttribute("role", "alert")
+    toastEl.setAttribute("aria-live", "assertlive")
+    toastEl.setAttribute("aria-atomic", "true")
+    toastEl.addEventListener("hidden.bs.toast", e => e.target.remove())
+    if (header) toastEl.appendChild(header)
   
-  toastEl.appendChild(body)
-  document.getElementById("toasts").appendChild(toastEl)
-  new bootstrap.Toast(toastEl, { autohide: level === "success" }).show()
+    toastEl.appendChild(body)
+    document.getElementById("toasts").appendChild(toastEl)
+    new bootstrap.Toast(toastEl, { autohide: level === "success" }).show()
+  },
+  // ...
 }
 ```
 
 Here's what's going on in the code above:
 
-- Line 2 splits the level from the message
-- Lines 4-18 (`let header`) create a header and close button if the message is not a success
-- Lines 20-22 (`const body`) create the body `div` with attributes Bootstrap's styling expects
-- Lines 24-28 (`const toastEl`) create the `div` that will contain the toast
-- Line 29 adds an event handler to remove the element from the DOM once the toast is hidden
-- Lines 30 and 32 add the optional header and mandatory body to the toast `div`
-- Line 33 adds the toast to the page (within the `toasts` inner `div` defined above)
-- Line 34 initializes the Bootstrap JavaScript component, auto-hiding on success, and shows the toast
+- Line 4 splits the level from the message
+- Lines 6-20 (`let header`) create a header and close button if the message is not a success
+- Lines 22-24 (`const body`) create the body `div` with attributes Bootstrap's styling expects
+- Lines 26-30 (`const toastEl`) create the `div` that will contain the toast
+- Line 31 adds an event handler to remove the element from the DOM once the toast is hidden
+- Lines 32 and 34 add the optional header and mandatory body to the toast `div`
+- Line 35 adds the toast to the page (within the `toasts` inner `div` defined above)
+- Line 36 initializes the Bootstrap JavaScript component, auto-hiding on success, and shows the toast
 
 _(If you've never used JavaScript to create elements that are added to an HTML document, this probably looks weird and verbose; if you have, you look at it and say "they're not wrong...")_
 
