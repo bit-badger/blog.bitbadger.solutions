@@ -6,6 +6,7 @@ author: Daniel
 categories:
 - [ Programming, .NET, F# ]
 - [ Programming, htmx ]
+- [ Projects, Giraffe.Htmx ]
 - [ Projects, myPrayerJournal ]
 - [ Series, A Tour of myPrayerJournal v3 ]
 tags:

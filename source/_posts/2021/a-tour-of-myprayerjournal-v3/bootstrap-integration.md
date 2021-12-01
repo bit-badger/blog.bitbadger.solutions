@@ -322,7 +322,7 @@ As I was keeping the UI the same, I did not end up using these options; however,
 
 ---
 
-Up next, we'll step away from the front end and dig into LiteDB.
+Up next, we'll step away from the front end and [dig into LiteDB][part3].
 
 
 [intro]: /2021/a-tour-of-myprayerjournal-v3/introduction.html "A Tour of myPrayerJournal v3: Introduction | The Bit Badger Blog"
@@ -341,3 +341,4 @@ Up next, we'll step away from the front end and dig into LiteDB.
 [ind]: https://htmx.org/docs/#indicators "Request Indicators | Docs | htmx"
 [trans]: https://htmx.org/docs/#css_transitions "CSS Transitions | Docs | htmx"
 [exmpls]: https://htmx.org/examples/animations/ "Animations | Examples | htmx"
+[part3]: /2021/a-tour-of-myprayerjournal-v3/the-data-store.html "A Tour of myPrayerJournal v3: The Data Store | The Bit Badger Blog"
