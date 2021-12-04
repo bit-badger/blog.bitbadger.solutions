@@ -187,7 +187,7 @@ let journalByUserId userId (db : LiteDatabase) = backgroundTask {
   }
 ```
 
-Line 3 contains the LiteDB query; when it is done, `jrnl` has the type `System.Collections.Generic.List<Request>`. This "list" is different than an F# list; it is a concrete, doubly-linked list. F# lists are immutable, recursive item/tail pairs, so F# views the former as a form of sequence (as it extends `IEnumerable<T>`). Thus, the `Seq` module calls in the return statement are the appropriate ones to use. They execute lazily, so it is for filters to appear as early as possible; this reduces the number of latter transformations that may need to occur.
+Line 3 contains the LiteDB query; when it is done, `jrnl` has the type `System.Collections.Generic.List<Request>`. This "list" is different than an F# list; it is a concrete, doubly-linked list. F# lists are immutable, recursive item/tail pairs, so F# views the former as a form of sequence (as it extends `IEnumerable<T>`). Thus, the `Seq` module calls in the return statement are the appropriate ones to use. They execute lazily, so filters should appear as early as possible; this reduces the number of latter transformations that may need to occur.
 
 Looking at this example, if we were to sort first, the entire sequence would need to be sorted. Then, when we filter out the requests that are answered, we would remove items from that sequence. With sorting last, we only have to address the full sequence once, and we are sorting a (theoretically) smaller number of items. Conversely, we do have to run the `map` on the original sequence, as `lastStatus` is one of the calculated fields in the object created by `ofRequestLite`. Sometimes you can filter early, sometimes you cannot.
 
