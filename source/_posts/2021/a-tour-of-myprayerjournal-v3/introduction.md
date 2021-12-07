@@ -27,7 +27,7 @@ This is the first of 5 posts in this series.
 - **[Part 1: The User Interface][part1]** - A look at htmx and Giraffe working together to create the web UI
 - **[Part 2: Bootstrap Integration][part2]** - A little bit of JavaScript goes a long way
 - **[Part 3: The Data Store][part3]** - Migration to and usage of LiteDB
-- **Part 4: Conclusion** - Lessons learned and areas for improvement
+- **[Part 4: Conclusion][part4]** - Lessons learned and areas for improvement
 
 ## Background
 
@@ -61,12 +61,13 @@ What really swung me over the fence to giving it a shot, though, was a point Car
 
 ## Where We Go from Here
 
-In the [next post][part1], we'll take a look at Giraffe, its View Engine, htmx, and how they all work together. The [post after that][part2] will dive into the aforementioned 82 lines of JavaScript to see how we can control Bootstrap's client/browser behavior from the server. After that, we'll [dig in on LiteDB][part3], to include how we serialize some common F# constructs. Finally, we'll wrap up the series with overarching lessons learned, and other thoughts which may not fit nicely into one of the other posts.
+In the [next post][part1], we'll take a look at Giraffe, its View Engine, htmx, and how they all work together. The [post after that][part2] will dive into the aforementioned 82 lines of JavaScript to see how we can control Bootstrap's client/browser behavior from the server. After that, we'll [dig in on LiteDB][part3], to include how we serialize some common F# constructs. Finally, we'll [wrap up the series][part4] with overarching lessons learned, and other thoughts which may not fit nicely into one of the other posts.
 
 
 [part1]: /2021/a-tour-of-myprayerjournal-v3/the-user-interface.html "A Tour of myPrayerJournal v3: The User Interface | The Bit Badger Blog"
 [part2]: /2021/a-tour-of-myprayerjournal-v3/bootstrap-integration.html "A Tour of myPrayerJournal v3: Bootstrap Integration | The Bit Badger Blog"
 [part3]: /2021/a-tour-of-myprayerjournal-v3/the-data-store.html "A Tour of myPrayerJournal v3: The Data Store | The Bit Badger Blog"
+[part4]: /2021/a-tour-of-myprayerjournal-v3/conclusion.html "A Tour of myPrayerJournal v3: Conclusion | The Bit Badger Blog"
 [tour1]: /2018/a-tour-of-myprayerjournal/introduction.html "A Tour of myPrayerJournal: Introduction | The Bit Badger Blog"
 [Vue]: https://vuejs.org "Vue"
 [Giraffe]: https://giraffe.wiki "Giraffe"

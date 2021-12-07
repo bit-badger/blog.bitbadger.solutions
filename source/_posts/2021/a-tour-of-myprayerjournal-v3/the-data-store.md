@@ -272,7 +272,7 @@ None of these actually make the underlying library use async I/O; however, they 
 
 As I draft this, this paragraph is on line 280 of this post's source; the entire [Data.fs][] file is 209 lines, including blank lines and comments. The above is a moderately long-winded explanation of what is nicely terse code. If I had used traditional C#-style POCOs, the code would likely have been shorter still. The backup of the LiteDB file is right at half the size of the equivalent RavenDB backup, so the POCO-to-BSON mapping paid off there. I'm quite pleased with the outcome of using LiteDB for this project.
 
-Our final stop on the tour will wrap up with overall lessons learned on the project.
+Our [final stop on the tour][part4] will wrap up with overall lessons learned on the project.
 
 
 [intro]: /2021/a-tour-of-myprayerjournal-v3/introduction.html "A Tour of myPrayerJournal v3: Introduction | The Bit Badger Blog"
@@ -288,4 +288,4 @@ Our final stop on the tour will wrap up with overall lessons learned on the proj
 [JSON.NET]: https://www.newtonsoft.com/json "JSON.NET"
 [lite-map]: https://www.litedb.org/docs/object-mapping/ "Object Mapping - LiteDB"
 [Data.fs]: https://github.com/bit-badger/myPrayerJournal/blob/3/src/MyPrayerJournal/Data.fs "myPrayerJournal v3 Data.fs file"
-
+[part4]: /2021/a-tour-of-myprayerjournal-v3/conclusion.html "A Tour of myPrayerJournal v3: Conclusion | The Bit Badger Blog"
