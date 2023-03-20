@@ -1,9 +1,0 @@
-- var it = post || page
-if it.tags && it.tags.length > 0
-  small
-    = 'Tagged '
-    - var tags = it.tags.toArray().sort((a, b) => a.name < b.name ? -1 : a.name > b.name ? 1 : 0)
-    for tag in tags
-      a(href=url_for(tag.path) title='Posts tagged "' + tag.name + '"' rel='tag')= tag.name
-      if tags.indexOf(tag) < (tags.length - 1)
-        = ', '

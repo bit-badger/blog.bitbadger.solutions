@@ -1,7 +1,0 @@
-- var it = post || page
-if it.categories && it.categories.length > 0
-  - var cats = it.categories.toArray()
-  for cat in cats
-    a(href=url_for(cat.path) title='Categorized under ' + cat.name rel='tag')= cat.name
-    if cats.indexOf(cat) < (cats.length - 1)
-      = ', '
